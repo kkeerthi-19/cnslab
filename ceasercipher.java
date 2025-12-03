@@ -1,41 +1,26 @@
-import java.util.*;
-public class ceaser_cipher {
-	public static String caesarCipher(String text, int shift) {
-        StringBuilder result = new StringBuilder();
-
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-
+public class CaesarCipher {
+    public static String cipher(String text, int key) {
+        String result = "";
+        for (char c : text.toCharArray()) {
             if (Character.isLetter(c)) {
                 char base = Character.isUpperCase(c) ? 'A' : 'a';
-                int shifted = (c - base + shift) % 26;
-                if (shifted < 0) shifted += 26; // Handle negative shifts for decryption
-                result.append((char) (base + shifted));
+                result += (char)((c - base + key + 26) % 26 + base);
             } else {
-                // Non-alphabetic characters remain unchanged
-                result.append(c);
+                result += c;
             }
         }
-
-        return result.toString();
+        return result;
     }
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter text: ");
-        String input = scanner.nextLine();
+    public static void main(String[] args) {
+        String msg = "Hello World";
+        int key = 3;
 
-        System.out.print("Enter shift amount: ");
-        int shift = scanner.nextInt();
+        String encrypted = cipher(msg, key);      // encryption
+        String decrypted = cipher(encrypted, -key); // decryption
 
-        String encrypted = caesarCipher(input, shift);
-        System.out.println("Encrypted text: " + encrypted);
-
-        String decrypted = caesarCipher(encrypted, -shift);
-        System.out.println("Decrypted text: " + decrypted);
-
-        scanner.close();
-	}
-
+        System.out.println("Original : " + msg);
+        System.out.println("Encrypted: " + encrypted);
+        System.out.println("Decrypted: " + decrypted);
+    }
 }
